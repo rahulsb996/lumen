@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumen — Privacy policy</title>
+<meta name="description" content="How Lumen handles your data: everything is processed and stored on your iPhone, and nothing is sent to the developer.">
+<style>
+  :root { --bg: #f5f3ef; --card: #ffffff; --text: #121217; --muted: #6b6a68; --line: rgba(18,18,23,.08); }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #09090b; --card: #1b1b1e; --text: #f4f3f1; --muted: #a09f9c; --line: rgba(255,255,255,.1); }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 56px; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; }
+  .brand { font-weight: 700; font-size: 20px; text-decoration: none; color: inherit; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 600; }
+  h1 { font-size: clamp(32px, 7vw, 44px); line-height: 1.1; letter-spacing: -.025em; margin: 18px 0 6px; }
+  .date { color: var(--muted); margin: 0 0 26px; font-size: 15px; }
+  .summary { background: var(--card); border-radius: 24px; padding: 22px; margin-bottom: 8px; }
+  .summary p { margin: 0; }
+  h2 { font-size: 22px; letter-spacing: -.015em; margin: 36px 0 10px; }
+  p, li { color: var(--text); }
+  ul { padding-left: 22px; margin: 8px 0; }
+  li { margin: 6px 0; }
+  a { color: inherit; }
+  .muted { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 18px; overflow: hidden; font-size: 15.5px; margin: 12px 0; }
+  th, td { text-align: left; padding: 12px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  tr:first-child th { border-top: 0; }
+  th { font-weight: 600; }
+  .scroll { overflow-x: auto; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="./">Lumen</a>
+    <nav><a href="./">Home</a></nav>
+  </header>
+
+  <h1>Privacy policy</h1>
+  <p class="date">Effective 15 November 2026</p>
+
+  <div class="summary">
+    <p><strong>In short:</strong> Lumen reads your bank and card payment alerts on your iPhone and stores the results on your iPhone. It has no server and no accounts. The developer does not receive, see or store your data.</p>
+  </div>
+
+  <h2>Who this covers</h2>
+  <p>This policy describes the Lumen app for iPhone ("Lumen", "the app"), an independent personal project published by the GitHub user <a href="https://github.com/rahulsb996">rahulsb996</a> ("the developer").</p>
+
+  <h2>What Lumen accesses, and why</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>Source</th><th>What is accessed</th><th>How it is used</th></tr>
+    <tr>
+      <td>Text messages</td>
+      <td>Messages that you choose to pass to Lumen through a Shortcuts automation you create and switch on.</td>
+      <td>Each message is checked on your iPhone. Payment alerts from banks and cards are turned into a payment record. Every other message is discarded and not stored.</td>
+    </tr>
+    <tr>
+      <td>Gmail (optional)</td>
+      <td>If you connect a Google account, Lumen requests read-only access to Gmail (the <code>gmail.readonly</code> permission) and your email address.</td>
+      <td>Your iPhone asks Google for emails from bank and card senders that look like payment alerts, and reads them on the device to create payment records. Lumen does not send, delete or change email.</td>
+    </tr>
+    <tr>
+      <td>What you type</td>
+      <td>Payments you add by hand, your first name, and the name on your bank accounts if you enter it.</td>
+      <td>Shown in the app, and used to recognise transfers between your own accounts.</td>
+    </tr>
+  </table>
+  </div>
+
+  <h2>What is stored, and where</h2>
+  <ul>
+    <li>Payment records: amount, direction, the name of the shop or person, category, date, bank name, the last digits of the account or card, and the bank's reference number.</li>
+    <li>The original text of each message that became a payment. For emails this is the first part of the email, not the whole message.</li>
+    <li>Your settings, and a list of identifiers of emails already read, so they are not read twice.</li>
+    <li>If Gmail is connected: an access key issued by Google, kept in the iPhone Keychain.</li>
+  </ul>
+  <p>All of this is stored only in the app's private storage on your iPhone. If you use iPhone or iCloud backups, Apple's backup may include the app's data under your own Apple account.</p>
+
+  <h2>What is shared</h2>
+  <p>Nothing. Lumen has no server. The developer does not collect, receive, sell or share your data, and there are no analytics, advertising or tracking tools in the app.</p>
+  <p>The only network connections Lumen makes are directly from your iPhone to Google, and only when a Gmail account is connected.</p>
+
+  <h2>Google user data</h2>
+  <p>Lumen's use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements. In particular:</p>
+  <ul>
+    <li>Gmail data is used only to provide the app's user-facing feature of tracking your own payments.</li>
+    <li>Gmail data is not transferred to anyone. It is processed on your device.</li>
+    <li>Gmail data is not used for advertising.</li>
+    <li>No person other than you reads your Gmail data. The developer has no access to it.</li>
+    <li>Gmail data is not used to develop, improve or train generalised artificial intelligence or machine learning models.</li>
+  </ul>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li><strong>Stop text tracking:</strong> switch off or delete the automation in the Shortcuts app.</li>
+    <li><strong>Disconnect Gmail:</strong> remove the account in Lumen's Setup screen, or remove Lumen under third-party access in your <a href="https://myaccount.google.com/permissions">Google Account</a>.</li>
+    <li><strong>Delete a payment:</strong> open it in the app and choose Delete.</li>
+    <li><strong>Delete everything:</strong> use "Erase all data" in Setup, or delete the app. Either removes all data Lumen holds, because it exists only on your iPhone.</li>
+  </ul>
+
+  <h2>How long data is kept</h2>
+  <p>Until you delete it or delete the app. The developer holds no copy.</p>
+
+  <h2>Security</h2>
+  <p>Data is protected by the iPhone's own app sandbox and device encryption, and the Google access key is kept in the Keychain. Anyone who can unlock your iPhone can open Lumen and see your payments.</p>
+
+  <h2>Children</h2>
+  <p>Lumen is not directed at children under 13.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If the way Lumen handles data changes, this page will be updated and the date at the top will change before the new version of the app is released.</p>
+
+  <h2>Contact</h2>
+  <p>Questions or requests: open an issue at <a href="https://github.com/rahulsb996/lumen/issues">github.com/rahulsb996/lumen</a>.</p>
+</div>
+</body>
+</html>

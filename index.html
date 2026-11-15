@@ -5,130 +5,274 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lumen — see where your money goes</title>
 <meta name="description" content="Lumen is an iPhone app that tracks your spending from your bank's own alerts. Everything stays on your phone. No account, no server.">
+<meta name="theme-color" content="#08080a">
 <style>
-  :root {
-    --bg: #f5f3ef; --card: #ffffff; --ink: #121217; --text: #121217; --muted: #6b6a68;
-    --coral: #ff6b5c; --amber: #ffbd4d; --violet: #8561ff; --green: #1ab36e; --line: rgba(18,18,23,.08);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #09090b; --card: #1b1b1e; --text: #f4f3f1; --muted: #a09f9c; --line: rgba(255,255,255,.1); }
-  }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
-  header { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; }
-  .brand { font-weight: 700; font-size: 20px; letter-spacing: -.01em; }
-  a { color: inherit; }
-  nav a { color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 600; }
-  nav a:hover { color: var(--text); }
+:root{--bg:#08080a;--panel:#101013;--panel2:#16161a;--line:rgba(255,255,255,.08);--text:#f3f2ef;--mute:#8e8e95;--coral:#ff6b5c;--amber:#ffbd4d;--violet:#8561ff;--green:#34d18c;--ease:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.035em;line-height:1.04}
+h2{font-size:clamp(30px,4.4vw,52px)}
+.eyebrow{font-size:13px;font-weight:500;color:var(--mute);letter-spacing:.02em;margin:0 0 18px;display:flex;align-items:center;gap:10px}
+.eyebrow:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--coral);box-shadow:0 0 12px var(--coral)}
+.sub{color:var(--mute);font-size:clamp(17px,1.6vw,19px);max-width:33em;margin:18px 0 0}
+section.wrap{padding-top:clamp(84px,11vw,150px)}
+.fx{opacity:0;transform:translateY(14px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0)*70ms)}
+.fx.show{opacity:1;transform:none}
 
-  .hero {
-    position: relative; overflow: hidden; background: var(--ink); color: #fff;
-    border-radius: 32px; padding: 44px 30px 40px; margin-top: 6px;
-  }
-  .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; filter: blur(70px); }
-  .hero::before { width: 300px; height: 300px; background: var(--coral); top: -110px; right: -70px; opacity: .85; }
-  .hero::after { width: 280px; height: 280px; background: var(--violet); bottom: -130px; left: -90px; opacity: .7; }
-  .hero > * { position: relative; }
-  .lock {
-    width: 56px; height: 56px; border-radius: 50%; background: #fff; display: grid; place-items: center; margin-bottom: 22px;
-  }
-  h1 { font-size: clamp(34px, 8vw, 52px); line-height: 1.08; letter-spacing: -.025em; margin: 0 0 16px; font-weight: 700; }
-  .hero p { font-size: 19px; color: rgba(255,255,255,.78); margin: 0; max-width: 30em; }
-  .status {
-    display: inline-block; margin-top: 26px; padding: 8px 14px; border-radius: 999px;
-    background: rgba(255,255,255,.14); font-size: 14px; font-weight: 600;
-  }
+/* nav */
+nav{position:fixed;inset:0 0 auto;z-index:30;border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
+nav.on{background:rgba(8,8,10,.72);backdrop-filter:saturate(1.5) blur(18px);-webkit-backdrop-filter:saturate(1.5) blur(18px);border-color:var(--line)}
+nav .wrap{height:64px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em}
+.brand i{width:18px;height:18px;border-radius:6px;background:conic-gradient(from 210deg,var(--amber),var(--coral),var(--violet),var(--amber))}
+.menu{display:flex;gap:30px;font-size:14.5px;color:var(--mute)}
+.menu a{transition:color .2s}.menu a:hover{color:var(--text)}
+.pillbtn{font-size:14px;font-weight:500;padding:8px 15px;border-radius:99px;background:var(--text);color:#000;transition:opacity .2s}
+.pillbtn:hover{opacity:.85}
+@media (max-width:760px){.menu{display:none}}
 
-  section { padding: 44px 0 0; }
-  h2 { font-size: 26px; letter-spacing: -.02em; margin: 0 0 18px; }
-  .points { display: grid; gap: 12px; }
-  @media (min-width: 640px) { .points { grid-template-columns: repeat(3, 1fr); } }
-  .point { background: var(--card); border-radius: 24px; padding: 22px; }
-  .dot { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 14px; font-size: 20px; }
-  .point h3 { margin: 0 0 6px; font-size: 18px; }
-  .point p { margin: 0; color: var(--muted); font-size: 15.5px; }
+/* hero */
+.hero{padding-top:clamp(120px,15vw,190px)}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);border:1px solid var(--line);border-radius:99px;padding:6px 12px 6px 10px;margin-bottom:26px}
+.tag b{width:6px;height:6px;border-radius:50%;background:var(--green)}
+h1{font-size:clamp(44px,7.6vw,96px);max-width:11em}
+h1 em{font-style:normal;color:var(--mute)}
+.row2{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-top:28px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-size:15px;font-weight:500;padding:12px 20px;border-radius:99px;border:1px solid var(--line);transition:background .25s,border-color .25s,transform .2s}
+.btn:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+.btn:active{transform:scale(.985)}
+.btn.p{background:var(--text);color:#000;border-color:transparent}.btn.p:hover{background:#fff}
 
-  ol.steps { list-style: none; margin: 0; padding: 0; background: var(--card); border-radius: 24px; }
-  ol.steps li { display: flex; gap: 16px; padding: 20px 22px; border-top: 1px solid var(--line); }
-  ol.steps li:first-child { border-top: 0; }
-  .num {
-    flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--text); color: var(--bg);
-    display: grid; place-items: center; font-weight: 700; font-size: 15px;
-  }
-  ol.steps strong { display: block; }
-  ol.steps span { color: var(--muted); font-size: 15.5px; }
+.stage{position:relative;margin-top:clamp(44px,6vw,76px);height:clamp(420px,58vw,700px);border-radius:32px;overflow:hidden;border:1px solid var(--line);background:#0b0b0e}
+.stage:before,.stage:after{content:"";position:absolute;border-radius:50%;filter:blur(110px);will-change:transform}
+.stage:before{width:56%;aspect-ratio:1;background:var(--coral);top:-34%;right:-8%;opacity:.5;animation:drift 18s ease-in-out infinite alternate}
+.stage:after{width:52%;aspect-ratio:1;background:var(--violet);bottom:-48%;left:-10%;opacity:.5;animation:drift 22s ease-in-out infinite alternate-reverse}
+@keyframes drift{to{transform:translate3d(-6%,7%,0) scale(1.08)}}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(70% 70% at 50% 40%,#000,transparent);mask-image:radial-gradient(70% 70% at 50% 40%,#000,transparent);opacity:.6}
 
-  .note { background: var(--card); border-radius: 24px; padding: 22px; color: var(--muted); font-size: 15.5px; }
-  .note strong { color: var(--text); }
-  footer { padding: 44px 0 56px; color: var(--muted); font-size: 14.5px; display: flex; gap: 18px; flex-wrap: wrap; }
-  footer a { color: var(--muted); }
+/* device */
+.dev{--h:540px;position:absolute;left:50%;bottom:0;height:var(--h);aspect-ratio:9/19.4;border-radius:calc(var(--h)*.086);padding:calc(var(--h)*.015);background:linear-gradient(150deg,#34343b,#0b0b0e 45%,#1b1b20);box-shadow:0 0 0 1px rgba(255,255,255,.09) inset,0 50px 90px -30px rgba(0,0,0,.9);font-size:calc(var(--h)*.0212);will-change:transform;transition:transform 1.2s var(--ease),opacity 1.2s var(--ease);opacity:0}
+.dev>div{position:relative;height:100%;border-radius:calc(var(--h)*.072);overflow:hidden;background:#07070a;padding:15% 7% 0}
+.dev>div:before{content:"";position:absolute;top:2.2%;left:50%;width:30%;height:3.6%;transform:translateX(-50%);border-radius:99px;background:#000}
+.d1{--h:clamp(360px,50vw,600px);z-index:2;transform:translate(-50%,calc(18% + 60px + var(--p,0)*-46px))}
+.d2,.d3{--h:clamp(300px,42vw,500px)}
+.d2{transform:translate(calc(-50% - 78%),calc(28% + 90px + var(--p,0)*-90px)) rotate(-7deg)}
+.d3{transform:translate(calc(-50% + 78%),calc(28% + 90px + var(--p,0)*-90px)) rotate(7deg)}
+.stage.show .dev{opacity:1}
+.stage.show .d1{transform:translate(-50%,calc(18% + var(--p,0)*-46px))}
+.stage.show .d2{transform:translate(calc(-50% - 78%),calc(28% + var(--p,0)*-90px)) rotate(-7deg);transition-delay:.12s}
+.stage.show .d3{transform:translate(calc(-50% + 78%),calc(28% + var(--p,0)*-90px)) rotate(7deg);transition-delay:.2s}
+@media (max-width:700px){.d2,.d3{display:none}.d1{--h:min(92%,470px)}}
+
+/* in-app pieces (sized in em so they scale with the device) */
+.s{color:rgba(255,255,255,.5);font-size:.82em}
+.t{font-size:1.75em;font-weight:600;letter-spacing:-.02em;margin:.1em 0 .65em}
+.glow{position:relative;overflow:hidden;border-radius:1.5em;padding:1.15em;background:#111116}
+.glow:before,.glow:after{content:"";position:absolute;border-radius:50%;filter:blur(2.6em)}
+.glow:before{width:10em;height:10em;background:var(--coral);top:-4em;right:-3em;opacity:.85}
+.glow:after{width:9em;height:9em;background:var(--violet);bottom:-5em;left:-3em;opacity:.7}
+.glow>*{position:relative}
+.amt{font-size:2.8em;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.amt i{font-style:normal;font-weight:400;font-size:.55em;opacity:.6;margin-right:.1em}
+.bars{display:flex;align-items:flex-end;gap:.55em;height:3.2em;margin:.7em 0}
+.bars u{flex:1;border-radius:.5em;background:rgba(255,255,255,.22)}
+.bars u:last-child{background:linear-gradient(var(--amber),var(--coral))}
+.list{margin-top:.8em;border-radius:1.3em;background:#111116;padding:.15em .9em}
+.r{display:flex;align-items:center;gap:.7em;padding:.72em 0;border-top:1px solid rgba(255,255,255,.07)}
+.r:first-child{border:0}
+.r>span{width:2.3em;height:2.3em;border-radius:.8em;display:grid;place-items:center;background:rgba(255,255,255,.08);flex:none}
+.r>div{flex:1;min-width:0}.r b{display:block;font-weight:600}.r em{font-style:normal;font-weight:600;text-align:right}
+.r em small,.r div small{display:block;font-weight:400;color:rgba(255,255,255,.5);font-size:.82em}
+.pos{color:var(--green)}.cut{opacity:.36;text-decoration:line-through}
+.meter{height:.45em;border-radius:9px;background:rgba(255,255,255,.08);margin-top:.45em;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:9px}
+.cat{padding:.7em 0;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;flex-wrap:wrap;font-weight:600}
+.cat:first-child{border:0}.cat .meter{flex-basis:100%}
+.ring{width:9.5em;height:9.5em;transform:rotate(-90deg);display:block;margin:.4em auto 1em}
+.ring circle{fill:none;stroke-width:12;stroke-linecap:round}
+
+/* statement */
+.state{font-size:clamp(26px,3.7vw,46px);font-weight:500;letter-spacing:-.03em;line-height:1.16;max-width:22em}
+.state span{color:rgba(255,255,255,.24);transition:color .5s var(--ease)}
+.state span.lit{color:var(--text)}
+
+.trio{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(40px,6vw,72px);border-top:1px solid var(--line)}
+.trio div{padding:28px 28px 0 0}
+.trio div+div{padding-left:28px;border-left:1px solid var(--line)}
+.trio b{display:block;font-size:clamp(44px,6vw,76px);font-weight:600;letter-spacing:-.05em;line-height:1}
+.trio span{display:block;margin-top:12px;font-weight:500}
+.trio small{color:var(--mute);font-size:15px}
+@media (max-width:700px){.trio{grid-template-columns:1fr}.trio div,.trio div+div{padding:22px 0;border-left:0;border-bottom:1px solid var(--line)}}
+
+/* feature cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(36px,5vw,60px)}
+.c{border:1px solid var(--line);border-radius:24px;background:var(--panel);overflow:hidden;transition:border-color .35s,transform .5s var(--ease)}
+.c:hover{border-color:rgba(255,255,255,.18)}
+.c .ui{height:230px;padding:26px 26px 0;font-size:12.5px;background:radial-gradient(120% 90% at 50% 0,rgba(255,255,255,.055),transparent 70%);overflow:hidden;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+.c .ui>*{transition:transform .6s var(--ease)}
+.c:hover .ui>*{transform:translateY(-4px)}
+.c .tx{padding:8px 26px 28px}
+.c h3{font-size:19px;letter-spacing:-.02em}
+.c p{color:var(--mute);font-size:15.5px;margin:8px 0 0}
+.bub{background:#1c1c22;border-radius:1.2em 1.2em 1.2em .35em;padding:.85em 1em;line-height:1.5}
+.bub mark{background:rgba(255,107,92,.28);color:#fff;border-radius:.3em;padding:0 .15em}
+.dn{text-align:center;color:var(--mute);margin:.5em 0;font-size:1.2em}
+.field{border:1px solid var(--line);border-radius:99px;padding:.8em 1.1em;color:var(--mute);display:flex;gap:.6em}
+.chips{display:flex;gap:.5em;margin-top:.9em}
+.chips i{font-style:normal;padding:.55em 1em;border-radius:99px;background:rgba(255,255,255,.07);font-weight:500}
+.chips i:first-child{background:var(--text);color:#000}
+@media (max-width:960px){.cards{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.cards{grid-template-columns:1fr}}
+
+/* faq + end */
+.faq{max-width:820px}
+details{border-top:1px solid var(--line)}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;padding:22px 40px 22px 0;position:relative;font-size:18px;font-weight:500;letter-spacing:-.01em}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"";position:absolute;right:4px;top:30px;width:12px;height:12px;background:linear-gradient(var(--mute),var(--mute)) center/100% 1.5px no-repeat,linear-gradient(var(--mute),var(--mute)) center/1.5px 100% no-repeat;transition:transform .4s var(--ease)}
+details[open] summary:after{transform:rotate(45deg)}
+details p{margin:0;padding:0 0 22px;color:var(--mute);max-width:42em}
+details a{text-decoration:underline;text-underline-offset:3px}
+.end{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:32px;padding:clamp(48px,9vw,110px) 28px;text-align:center;background:#0b0b0e}
+.end:before{content:"";position:absolute;width:60%;aspect-ratio:1;left:20%;bottom:-70%;border-radius:50%;background:linear-gradient(90deg,var(--violet),var(--coral));filter:blur(110px);opacity:.55}
+.end>*{position:relative}
+.end h2{font-size:clamp(34px,6vw,72px)}
+.end .sub{margin:18px auto 30px}
+.end .btns{justify-content:center}
+footer{padding:44px 0 56px;margin-top:clamp(70px,9vw,120px);border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--mute);font-size:14px}
+footer a:hover{color:var(--text)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.fx,.dev{opacity:1}.state span{color:var(--text)}html{scroll-behavior:auto}}
 </style>
+<noscript><style>.fx,.dev{opacity:1;transform:none}.state span{color:var(--text)}</style></noscript>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">Lumen</div>
-    <nav><a href="privacy.html">Privacy policy</a></nav>
-  </header>
 
-  <div class="hero">
-    <div class="lock" aria-hidden="true">
-      <svg width="22" height="26" viewBox="0 0 22 26" fill="#121217"><path d="M5 10V7a6 6 0 1 1 12 0v3h1.5A2.5 2.5 0 0 1 21 12.500v10A2.500 2.500 0 0 1 18.500 25h-15A2.500 2.500 0 0 1 1 22.500v-10A2.500 2.500 0 0 1 3.500 10H5Zm3 0h6V7a3 3 0 1 0-6 0v3Z"/></svg>
-    </div>
-    <h1>Your money.<br>Your phone.<br>Nothing else.</h1>
-    <p>Lumen is an iPhone app that tracks your spending from the payment alerts your bank already sends you. Everything stays on your phone.</p>
-    <span class="status">In private testing · not yet on the App Store</span>
+<nav id="nav"><div class="wrap">
+  <a class="brand" href="#top"><i></i>Lumen</a>
+  <div class="menu"><a href="#features">Features</a><a href="#faq">Questions</a></div>
+  <a class="pillbtn" href="privacy.html">Privacy policy</a>
+</div></nav>
+
+<header class="hero wrap" id="top">
+  <div class="tag fx"><b></b>Private testing · iPhone</div>
+  <h1 class="fx" style="--i:1">Where did my money go? <em>Only you get to know.</em></h1>
+  <div class="row2">
+    <p class="sub fx" style="--i:2;margin:0">Lumen quietly reads the payment alerts your bank already sends, and adds them up on your iPhone. No sign-up, no server, no spreadsheet.</p>
+    <div class="btns fx" style="--i:3"><a class="btn p" href="#features">Show me</a><a class="btn" href="privacy.html">Privacy policy</a></div>
   </div>
 
-  <section>
-    <h2>What makes it different</h2>
-    <div class="points">
-      <div class="point">
-        <div class="dot" style="background:rgba(133,97,255,.16)" aria-hidden="true">👤</div>
-        <h3>No account</h3>
-        <p>There is no sign-up and no Lumen login. Install it and start.</p>
-      </div>
-      <div class="point">
-        <div class="dot" style="background:rgba(26,179,110,.16)" aria-hidden="true">📱</div>
-        <h3>No server</h3>
-        <p>Your payments are read and stored on your iPhone. The developer never receives them.</p>
-      </div>
-      <div class="point">
-        <div class="dot" style="background:rgba(255,189,77,.2)" aria-hidden="true">⚡</div>
-        <h3>No typing</h3>
-        <p>Payments appear on their own, filed by category, with paid and received clearly marked.</p>
-      </div>
-    </div>
-  </section>
+  <div class="stage" id="stage">
+    <div class="grid"></div>
 
-  <section>
-    <h2>How it works</h2>
-    <ol class="steps">
-      <li><div class="num">1</div><div><strong>Your bank alerts you</strong><span>By text message or email, as it already does for every payment.</span></div></li>
-      <li><div class="num">2</div><div><strong>Lumen reads the alert on your phone</strong><span>Texts are passed to Lumen by a Shortcuts automation that you switch on. Emails are optional: if you connect Gmail, your phone fetches alerts from bank and card senders directly from Google.</span></div></li>
-      <li><div class="num">3</div><div><strong>The payment is saved on your phone</strong><span>Lumen keeps the amount, who it was to or from, the date and the category. Messages that are not payments are discarded.</span></div></li>
-    </ol>
-  </section>
+    <div class="dev d2"><div>
+      <div class="s">November</div><div class="t">Insights</div>
+      <svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" stroke="#ff6b5c" stroke-dasharray="118 314"/><circle cx="60" cy="60" r="50" stroke="#8561ff" stroke-dasharray="74 314" stroke-dashoffset="-128"/><circle cx="60" cy="60" r="50" stroke="#ffbd4d" stroke-dasharray="50 314" stroke-dashoffset="-212"/><circle cx="60" cy="60" r="50" stroke="#34d18c" stroke-dasharray="32 314" stroke-dashoffset="-272"/></svg>
+      <div class="list">
+        <div class="cat"><span>Food</span><span>₹2,940</span><div class="meter"><i style="width:44%;background:#ff6b5c"></i></div></div>
+        <div class="cat"><span>Subscriptions</span><span>₹1,567</span><div class="meter"><i style="width:26%;background:#8561ff"></i></div></div>
+        <div class="cat"><span>Bills</span><span>₹1,240</span><div class="meter"><i style="width:19%;background:#ffbd4d"></i></div></div>
+      </div>
+    </div></div>
 
-  <section>
-    <h2>If you connect Gmail</h2>
-    <div class="note">
-      <p style="margin-top:0"><strong>It is optional.</strong> Lumen works with bank texts alone.</p>
-      <p>Lumen asks Google for read-only access to your mail. Google does not offer a narrower permission, so its screen says Lumen can read your email. Lumen uses that access only to find payment alerts from banks and card issuers, and it processes them on your iPhone.</p>
-      <p style="margin-bottom:0">Email content is not sent to the developer or to anyone else. You can remove Lumen's access at any time in the app or in your Google account. The full details are in the <a href="privacy.html">privacy policy</a>.</p>
-    </div>
-  </section>
+    <div class="dev d1"><div>
+      <div class="s">Good evening</div><div class="t">Lumen</div>
+      <div class="glow"><div class="s" style="color:rgba(255,255,255,.7)">Spent in November</div>
+        <div class="amt"><i>₹</i>6,653</div>
+        <div class="bars"><u style="height:22%"></u><u style="height:30%"></u><u style="height:18%"></u><u style="height:92%"></u><u style="height:26%"></u><u style="height:70%"></u><u style="height:44%"></u></div>
+        <div class="s" style="color:rgba(255,255,255,.7)">Received <b class="pos">₹85,500</b> · Today <b style="color:#fff">₹615</b></div>
+      </div>
+      <div class="list">
+        <div class="r"><span>☕</span><div><b>Corner Cafe</b><small>Food · 9:10 am</small></div><em>−₹180<small>Paid</small></em></div>
+        <div class="r"><span class="pos">↙</span><div><b>Arjun K</b><small>8:42 pm</small></div><em class="pos">+₹500<small>Received</small></em></div>
+        <div class="r"><span>⟳</span><div><b>Netflix</b><small>Subscriptions</small></div><em>−₹649<small>Paid</small></em></div>
+        <div class="r"><span>🚇</span><div><b>City Metro</b><small>Transport</small></div><em>−₹86<small>Paid</small></em></div>
+      </div>
+    </div></div>
 
-  <footer>
-    <span>Lumen is an independent personal project.</span>
-    <a href="privacy.html">Privacy policy</a>
-    <a href="https://github.com/rahulsb996/lumen/issues">Contact</a>
-  </footer>
-</div>
+    <div class="dev d3"><div>
+      <div class="s">Every month</div><div class="t">Subscriptions</div>
+      <div class="glow"><div class="s" style="color:rgba(255,255,255,.7)">You pay about</div><div class="amt"><i>₹</i>1,567</div><div class="s" style="color:rgba(255,255,255,.7)">across 3 recurring payments</div></div>
+      <div class="list">
+        <div class="r"><span>⟳</span><div><b>Broadband</b><small>Next around 8 Dec</small></div><em>₹799</em></div>
+        <div class="r"><span>⟳</span><div><b>Netflix</b><small>Next around 14 Dec</small></div><em>₹649</em></div>
+        <div class="r"><span>⟳</span><div><b>Spotify</b><small>Next around 10 Dec</small></div><em>₹119</em></div>
+      </div>
+    </div></div>
+  </div>
+</header>
+
+<section class="wrap">
+  <p class="state" id="state">Most money apps want your data on their servers. Lumen never asks. It all stays on your phone.</p>
+  <div class="trio">
+    <div class="fx"><b>0</b><span>servers</span></div>
+    <div class="fx" style="--i:1"><b>0</b><span>sign-ups</span></div>
+    <div class="fx" style="--i:2"><b>0</b><span>ads or trackers</span></div>
+  </div>
+</section>
+
+<section class="wrap" id="features">
+  <p class="eyebrow fx">Features</p>
+  <h2 class="fx">It does the boring part.<br>You just look.</h2>
+  <div class="cards">
+    <div class="c fx"><div class="ui"><div class="bub">Sent <mark>Rs.349.00</mark> from A/C *4321 to <mark>SWIGGY</mark> on <mark>15/11/26</mark></div><div class="dn">↓</div><div class="list" style="margin:0"><div class="r"><span>☕</span><div><b>Swiggy</b><small>Food · just now</small></div><em>−₹349</em></div></div></div>
+      <div class="tx"><h3>You never type a thing</h3><p>Paid for coffee? It's already in there.</p></div></div>
+    <div class="c fx" style="--i:1"><div class="ui"><div class="list" style="margin:0"><div class="r"><span>↗</span><div><b>Groceries</b><small>Paid</small></div><em>−₹1,240</em></div><div class="r"><span class="pos">↙</span><div><b>Rent share</b><small>Received</small></div><em class="pos">+₹12,000</em></div><div class="r"><span>↗</span><div><b>City Metro</b><small>Paid</small></div><em>−₹86</em></div></div></div>
+      <div class="tx"><h3>In or out, no squinting</h3><p>Green means money came in. That's the whole system.</p></div></div>
+    <div class="c fx" style="--i:2"><div class="ui"><div class="list" style="margin:0"><div class="r"><span>🛒</span><div><b>Blinkit</b><small>Counted</small></div><em>−₹1,240</em></div><div class="r cut"><span>💳</span><div><b>Card bill</b><small>Already counted</small></div><em>−₹15,672</em></div><div class="r cut"><span>⇄</span><div><b>Own transfer</b><small>Not spending</small></div><em>−₹8,000</em></div></div></div>
+      <div class="tx"><h3>A total that doesn't lie</h3><p>Card bills and refunds never get counted twice.</p></div></div>
+  </div>
+</section>
+
+<section class="wrap" id="faq">
+  <div class="faq">
+    <p class="eyebrow fx">Questions</p>
+    <h2 class="fx" style="margin-bottom:34px">Fair questions.</h2>
+    <details><summary>Can you see my payments?</summary><p>No. There's no server for them to land on. They never leave your iPhone.</p></details>
+    <details><summary>How does it read my bank texts?</summary><p>Apple doesn't let apps read your messages, which is a good thing. You switch on one automation in Apple's Shortcuts app. It passes your texts to Lumen on your phone, and Lumen keeps only the payment alerts.</p></details>
+    <details><summary>Do I have to connect my Gmail?</summary><p>No, that part is optional. If you do, your iPhone fetches bank alerts straight from Google and reads them on the device. Google's screen will say "read your email" because it has no smaller option. The <a href="privacy.html">privacy policy</a> has the details.</p></details>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="end fx">
+    <h2>Know where your money goes.<br>Keep it to yourself.</h2>
+    <p class="sub">Still in private testing. The App Store comes later.</p>
+    <div class="btns"><a class="btn p" href="privacy.html">Read the privacy policy</a><a class="btn" href="https://github.com/rahulsb996/lumen/issues">Get in touch</a></div>
+  </div>
+  <footer><span>© 2026 Lumen</span><span><a href="privacy.html">Privacy policy</a> &nbsp;·&nbsp; <a href="https://github.com/rahulsb996/lumen/issues">Contact</a></span></footer>
+</section>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav'), stage = document.getElementById('stage'), state = document.getElementById('state');
+
+  // reveal once, in order
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } }); }, {threshold:.15, rootMargin:'0px 0px -5% 0px'});
+  [].forEach.call(document.querySelectorAll('.fx,.stage'), function(el){ io.observe(el); });
+
+  // the statement lights up word by word as it crosses the screen
+  var words = state.textContent.trim().split(/\s+/);
+  state.innerHTML = words.map(function(w){ return '<span>' + w + '</span>'; }).join(' ');
+  var spans = state.children, tick = 0;
+
+  function frame(){
+    tick = 0;
+    nav.classList.toggle('on', scrollY > 30);
+    var r = stage.getBoundingClientRect();
+    stage.style.setProperty('--p', Math.max(0, Math.min(1, (innerHeight - r.top) / (innerHeight + r.height))).toFixed(3));
+    var s = state.getBoundingClientRect(), k = (innerHeight * .82 - s.top) / (s.height + innerHeight * .34);
+    var lit = Math.round(Math.max(0, Math.min(1, k)) * spans.length);
+    for(var i = 0; i < spans.length; i++) spans[i].className = i < lit ? 'lit' : '';
+  }
+  addEventListener('scroll', function(){ if(!tick) tick = requestAnimationFrame(frame); }, {passive:true});
+  addEventListener('resize', frame);
+  frame();
+})();
+</script>
 </body>
 </html>
